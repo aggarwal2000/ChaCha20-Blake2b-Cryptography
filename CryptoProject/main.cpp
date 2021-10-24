@@ -7,8 +7,8 @@
 std::vector<uint8_t> Chacha20Decrypt(const std::vector<uint8_t> & cipher_text_message, const std::array<uint8_t, 32> & key, const std::array< uint8_t, 12> & nonce, const uint32_t counter);
 std::vector<uint8_t> Chacha20Encrypt(const std::vector<uint8_t> & plain_text_message, const std::array<uint8_t, 32> & key, const std::array< uint8_t, 12> & nonce, const uint32_t counter);
 
-std::array<uint8_t, 32> Poly1305KeyGeneration(const std::array<uint8_t, 32> & key, const std::array< uint8_t, 12> & nonce);
-std::array<uint8_t, 16> Poly1305Mac(const std::vector<uint8_t> & message, const std::array<uint8_t, 32> & mac_key);
+
+void TestBlake2b();
 
 int main()
 {	
@@ -28,6 +28,8 @@ int main()
 std::string message = std::string("Ladies and Gentlemen of the class of \'99: If I would offer you only one tip for the future, sunscreen would be it.") ;
 
 std::vector<uint8_t> plain_text_message;
+
+static_assert(sizeof(char) == sizeof(uint8_t));
 
 printf("\n Plain Text Message: \n");
 for(int i = 0; i < message.size(); i++)
@@ -64,8 +66,10 @@ for(int i = 0; i < decrypted_text_message.size(); i++)
 //MAIN DOUBT: string's char to uint8_t , then uint8_t back to cipher text char..... ????
 
 
+TestBlake2b();
 
-std::array<uint8_t, 32> mac_key = Poly1305KeyGeneration(key, nonce);
-std::array<uint8_t, 16> tag = Poly1305Mac(cipher_text_message, mac_key);
+uint64_t test_el = 0xabcd1122ff3412ac;
+printf(" test_el:  %lx ", test_el);
+printf(" \n sizeof(int) : %ld , sizeof(uint64_t): %ld ", sizeof(int), sizeof(uint64_t));
 
 }
