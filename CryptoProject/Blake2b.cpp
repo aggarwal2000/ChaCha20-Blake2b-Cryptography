@@ -293,10 +293,9 @@ void CreateDataBlock(const std::vector<uint8_t> & hash_key , const std::vector<u
 
 		is_last_block = true;
 	}
-
-
-	if(iter == 0 && hash_key.size() > 0 )
+	else if(iter == 0 && hash_key.size() > 0 )
 	{	
+		printf("\n Creating data bloack from key\n");
 		size_t i = 0;
 		for(; i < hash_key.size(); i++)
 		{
@@ -316,9 +315,7 @@ void CreateDataBlock(const std::vector<uint8_t> & hash_key , const std::vector<u
 		}
 
 	}
-
-
-	if(iter > 0 || hash_key.size() == 0)
+	else if(iter > 0 || hash_key.size() == 0)
 	{
 		iter++;
 
@@ -361,6 +358,8 @@ void CreateDataBlock(const std::vector<uint8_t> & hash_key , const std::vector<u
 std::vector<uint8_t> Blake2b(const std::vector<uint8_t> & hash_key , const std::vector<uint8_t> & message, const size_t hash_num_bytes)
 {	
 	const size_t keylen = hash_key.size();
+
+	printf("\n keylen: %d ", keylen);
 
 	assert(keylen >= 0 &&  keylen <= 64);
 	//assert(msglen >= 0 && msglen <= 2**128 -> v.big, exceeds max vector (of chars) size for this system)	
@@ -411,7 +410,7 @@ std::vector<uint8_t> Blake2b(const std::vector<uint8_t> & hash_key , const std::
 	// t[0] has low word, t[1] has high word.     t is seen as numerical 128 bit number:  t[1] CONCAT t[0]
 	
 	bool is_last_block = false;
-
+	
 	while(is_last_block == false)
 	{
 		size_t increment_for_t;
@@ -419,6 +418,7 @@ std::vector<uint8_t> Blake2b(const std::vector<uint8_t> & hash_key , const std::
 
 		CreateDataBlock(hash_key,message, increment_for_t, is_last_block, input_data_block);
 		
+		printf("\n Is last block: %d ", is_last_block);
 
 		for(int i = 0; i < 16; i++)
 		{
@@ -449,24 +449,24 @@ void TestBlake2b()
 	std::vector<uint8_t> hash_key;
 	std::vector<uint8_t> message = { 0x61 , 0x62, 0x63 };
 
-	std::vector<uint8_t> hash_tag_bytes =  Blake2b(hash_key, message, 64);
+	// std::vector<uint8_t> hash_tag_bytes =  Blake2b(hash_key, message, 64);
 
-	for(int i = 0; i < hash_tag_bytes.size(); i++)
-	{
-		printf("\n hash_tag_bytes[%d] : %x  ", i, hash_tag_bytes[i]);
-	}
+	// for(int i = 0; i < hash_tag_bytes.size(); i++)
+	// {
+	// 	printf("\n hash_tag_bytes[%d] : %x  ", i, hash_tag_bytes[i]);
+	// }
 
 	std::vector<uint8_t> hash_key1;
-	std::vector<uint8_t> message1;
+	 std::vector<uint8_t> message1;
 
-	std::vector<uint8_t> hash_tag_bytes1 =  Blake2b(hash_key1, message1, 64);
+	// std::vector<uint8_t> hash_tag_bytes1 =  Blake2b(hash_key1, message1, 64);
 
-	for(int i = 0; i < hash_tag_bytes1.size(); i++)
-	{
-		printf("\n hash_tag_bytes1[%d] : %x  ", i, hash_tag_bytes1[i]);
-	}
+	// for(int i = 0; i < hash_tag_bytes1.size(); i++)
+	// {
+	// 	printf("\n hash_tag_bytes1[%d] : %x  ", i, hash_tag_bytes1[i]);
+	// }
 
-
+	//Test cases from Wikipedia and Cryto++ : both passed
 	//std::string msg = "Yoda said, Do or do not. There is not try.";
 	std::string msg = "The quick brown fox jumps over the lazy dog";
 
@@ -482,7 +482,15 @@ void TestBlake2b()
 		printf("\n hash_tag_bytes2[%d] : %x  ", i, hash_tag_bytes2[i]);
 	}
 
+/*
+	std::vector<uint8_t> hash_tag_bytes3 =  Blake2b({0x12, 0x34} , message1, 64);
 
+	for(int i = 0; i < hash_tag_bytes3.size(); i++)
+	{
+		printf("\n hash_tag_bytes3[%d] : %x  ", i, hash_tag_bytes3[i]);
+	}
+
+*/
 
 
 
