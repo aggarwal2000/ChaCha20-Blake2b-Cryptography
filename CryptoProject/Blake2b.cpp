@@ -468,7 +468,15 @@ void TestBlake2b()
 
 	//Test cases from Wikipedia and Cryto++ : both passed
 	//std::string msg = "Yoda said, Do or do not. There is not try.";
-	std::string msg = "The quick brown fox jumps over the lazy dog";
+	//std::string msg = "The quick brown fox jumps over the lazy dog";
+	std::string msg = "Hi. I am Isha";
+
+	std::string key = "hello";
+
+	for(int i = 0; i < key.size(); i++)
+	{
+		hash_key1.push_back(static_cast<uint8_t>(key[i]));
+	}
 
 	for(int i = 0; i < msg.size(); i++)
 	{
