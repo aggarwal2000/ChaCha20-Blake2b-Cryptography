@@ -4,6 +4,9 @@
 #include<string>
 #include<cassert>
 
+
+namespace{
+
 uint64_t CircularRightShift(const uint64_t bitset, const size_t shift)
 {
 	return ( (bitset >> shift) | ( bitset << (64 - shift) ) );
@@ -359,7 +362,7 @@ void CreateDataBlock(const std::vector<uint8_t> & hash_key , const std::vector<u
 
 }
 
-
+} //unnamed namespace
 
 std::vector<uint8_t> Blake2b(const std::vector<uint8_t> & hash_key , const std::vector<uint8_t> & message, const size_t hash_num_bytes)
 {	

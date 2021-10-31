@@ -5,6 +5,11 @@
 #include<array>
 #include<string>
 #include<cassert>
+#include <cstdio>
+#include<filesystem>
+
+namespace{
+
 
 
 uint8_t HexCharToUint8(char c)
@@ -224,16 +229,11 @@ std::string Uint8ToHexString(const uint8_t num)
     return s_hex;
 }
 
-void ReadInputFiles(std::vector<uint8_t>& plain_text_message, std::array< uint8_t, 32> & chacha20_key, std::array< uint8_t, 12> & chacha20_nonce, 
-uint32_t & chacha20_counter, std::vector<uint8_t>& hmac_key, size_t & hash_num_bytes)
+
+void ReadPlainText(std::vector<uint8_t>& plain_text_message)
 {
-    static_assert(sizeof(char) == sizeof(uint8_t));
-    
     std::string line;
-
-    std::string dir = "InputFiles/";
-
-    std::ifstream message_file(dir + "input_plain_txt_message.txt");
+    std::ifstream message_file("InputFiles/input_plain_txt_message.txt");
     if( message_file.is_open())
     {   
         bool data_read = false;
@@ -257,10 +257,14 @@ uint32_t & chacha20_counter, std::vector<uint8_t>& hmac_key, size_t & hash_num_b
     else
     {
         std::cout << "Unable to open file: input_plain_txt_message.txt" << std::endl;
+        exit(1);
     }
+}
 
-
-    std::ifstream chacha_key(dir + "chacha20_key.txt");
+void ReadChaChaKey(std::array< uint8_t, 32> & chacha20_key)
+{
+    std::string line;
+    std::ifstream chacha_key("InputFiles/chacha20_key.txt");
     if( chacha_key.is_open())
     {   
         for(int i = 0; i < 32; i++)
@@ -276,11 +280,14 @@ uint32_t & chacha20_counter, std::vector<uint8_t>& hmac_key, size_t & hash_num_b
     else
     {
         std::cout << "Unable to open file: chacha20_key.txt" << std::endl;
+        exit(1);
     }
+}
 
-
-
-    std::ifstream chacha_nonce(dir + "chacha20_nonce.txt");
+void ReadChaChaNonce(std::array< uint8_t, 12> & chacha20_nonce)
+{   
+    std::string line;
+    std::ifstream chacha_nonce("InputFiles/chacha20_nonce.txt");
     if( chacha_nonce.is_open())
     {   
         for(int i = 0; i < 12; i++)
@@ -294,12 +301,16 @@ uint32_t & chacha20_counter, std::vector<uint8_t>& hmac_key, size_t & hash_num_b
     else
     {
         std::cout << "Unable to open file: chacha20_nonce.txt" << std::endl;
+        exit(1);
     }
+}
 
 
 
-
-    std::ifstream chacha_counter(dir + "chacha20_counter.txt");
+void ReadChaChaCounter(uint32_t & chacha20_counter)
+{
+    std::string line;
+    std::ifstream chacha_counter("InputFiles/chacha20_counter.txt");
     if( chacha_counter.is_open())
     {   
         std::getline(chacha_counter, line);
@@ -308,26 +319,14 @@ uint32_t & chacha20_counter, std::vector<uint8_t>& hmac_key, size_t & hash_num_b
     else
     {
         std::cout << "Unable to open file:chacha20_counter.txt" << std::endl;
+        exit(1);
     }
+}
 
-
-
-
-
-    std::ifstream blake_digest_size(dir + "blake2b-512_digest_size.txt");
-    if( blake_digest_size.is_open())
-    {   
-        std::getline(blake_digest_size, line);
-        hash_num_bytes = stoi(line);
-    }
-    else
-    {
-        std::cout << "Unable to open file:blake2b-512_digest_size.txt" << std::endl;
-    }
-
-
-
-    std::ifstream blake_key(dir + "blake2b-512_key.txt");
+void ReadHmacKey( std::vector<uint8_t>& hmac_key)
+{
+    std::string line;
+    std::ifstream blake_key("InputFiles/blake2b-512_key.txt");
     if( blake_key.is_open())
     {   
         bool data_read = false;
@@ -355,6 +354,50 @@ uint32_t & chacha20_counter, std::vector<uint8_t>& hmac_key, size_t & hash_num_b
         std::cout << "Unable to open file:blake2b-512_key.txt" << std::endl;
     }
 
+
+}
+
+void ReadHashNumBytes(size_t & hash_num_bytes)
+{
+    std::string line;
+    std::ifstream blake_digest_size("InputFiles/blake2b-512_digest_size.txt");
+    if( blake_digest_size.is_open())
+    {   
+        std::getline(blake_digest_size, line);
+        hash_num_bytes = stoi(line);
+    }
+    else
+    {
+        std::cout << "Unable to open file:blake2b-512_digest_size.txt" << std::endl;
+        exit(1);
+    }
+
+}
+
+
+} //unnamed namespace
+
+void ReadInputFiles(std::vector<uint8_t>& plain_text_message, std::array< uint8_t, 32> & chacha20_key, std::array< uint8_t, 12> & chacha20_nonce, 
+uint32_t & chacha20_counter, std::vector<uint8_t>& hmac_key, size_t & hash_num_bytes)
+{
+    static_assert(sizeof(char) == sizeof(uint8_t));
+    ReadPlainText(plain_text_message);
+    ReadChaChaKey(chacha20_key);
+    ReadChaChaNonce(chacha20_nonce);
+    ReadChaChaCounter(chacha20_counter);
+    ReadHmacKey(hmac_key);
+    ReadHashNumBytes(hash_num_bytes);
+}
+
+
+void ReadInputFiles(std::vector<uint8_t>& plain_text_message, std::array< uint8_t, 32> & chacha20_key, std::array< uint8_t, 12> & chacha20_nonce, 
+uint32_t & chacha20_counter)
+{
+    static_assert(sizeof(char) == sizeof(uint8_t));
+    ReadPlainText(plain_text_message);
+    ReadChaChaKey(chacha20_key);
+    ReadChaChaNonce(chacha20_nonce);
+    ReadChaChaCounter(chacha20_counter);
 }
 
 
@@ -387,3 +430,33 @@ void write(const std::vector<uint8_t>& bytes, const bool is_str, const std::stri
 
 }
 
+void write(const std::string & to_write , const std::string & fname)
+{
+    std::ofstream myfile(fname);
+    if(myfile.is_open())
+    {   
+        myfile << to_write;
+    }
+    else
+    {
+         std::cout << "Unable to open file:" <<  fname  << std::endl;   
+    }
+
+}
+
+
+
+void DeleteFilesInDir(const std::string & dir)
+{   
+    
+    if(std::filesystem::remove_all( dir ) == false)
+    {   
+        printf("\n Fails to delete dir files");
+    }
+
+    if(  std::filesystem::create_directory(dir) == false)
+    {   
+        printf("\n Fails to create dir");   
+    }
+    
+}

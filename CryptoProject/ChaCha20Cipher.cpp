@@ -3,6 +3,9 @@
 #include<array>
 #include<string>
 
+
+namespace{
+
 template<int arr_size, int start_idx>
 void Pack4(const std::array< uint8_t, arr_size> & arr,  uint32_t & chacha20_state_element)
 {
@@ -260,6 +263,7 @@ void XOR_operation_with_keystream_block(std::vector<uint8_t> & cipher_text, cons
 	}
 }
 
+} //unnamed namespace
 
 std::vector<uint8_t> Chacha20Encrypt(const std::vector<uint8_t> & plain_text_message, const std::array<uint8_t, 32> & key, const std::array< uint8_t, 12> & nonce, const uint32_t counter)
 {	
