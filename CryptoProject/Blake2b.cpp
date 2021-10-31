@@ -291,6 +291,7 @@ void CreateDataBlock(const std::vector<uint8_t> & hash_key , const std::vector<u
 			buffer[i] = 0x00;
 		}
 
+		increment_for_t = 0;
 		is_last_block = true;
 	}
 	else if(iter == 0 && hash_key.size() > 0 )
@@ -312,6 +313,9 @@ void CreateDataBlock(const std::vector<uint8_t> & hash_key , const std::vector<u
 		if(message.size() == 0)
 		{
 			is_last_block = true;
+			msg_ptr = 0;
+			iter = 0;
+
 		}
 
 	}
@@ -335,6 +339,8 @@ void CreateDataBlock(const std::vector<uint8_t> & hash_key , const std::vector<u
 			}
 
 			is_last_block = true;
+			msg_ptr = 0;
+			iter = 0;
 
 		}
 		else
@@ -443,63 +449,3 @@ std::vector<uint8_t> Blake2b(const std::vector<uint8_t> & hash_key , const std::
 
 }
 
-
-void TestBlake2b()
-{
-	std::vector<uint8_t> hash_key;
-	std::vector<uint8_t> message = { 0x61 , 0x62, 0x63 };
-
-	// std::vector<uint8_t> hash_tag_bytes =  Blake2b(hash_key, message, 64);
-
-	// for(int i = 0; i < hash_tag_bytes.size(); i++)
-	// {
-	// 	printf("\n hash_tag_bytes[%d] : %x  ", i, hash_tag_bytes[i]);
-	// }
-
-	std::vector<uint8_t> hash_key1;
-	 std::vector<uint8_t> message1;
-
-	// std::vector<uint8_t> hash_tag_bytes1 =  Blake2b(hash_key1, message1, 64);
-
-	// for(int i = 0; i < hash_tag_bytes1.size(); i++)
-	// {
-	// 	printf("\n hash_tag_bytes1[%d] : %x  ", i, hash_tag_bytes1[i]);
-	// }
-
-	//Test cases from Wikipedia and Cryto++ : both passed
-	//std::string msg = "Yoda said, Do or do not. There is not try.";
-	//std::string msg = "The quick brown fox jumps over the lazy dog";
-	std::string msg = "Hi. I am Isha";
-
-	std::string key = "hello";
-
-	for(int i = 0; i < key.size(); i++)
-	{
-		hash_key1.push_back(static_cast<uint8_t>(key[i]));
-	}
-
-	for(int i = 0; i < msg.size(); i++)
-	{
-		message1.push_back( static_cast<uint8_t>(msg[i]));
-	}
-
-	std::vector<uint8_t> hash_tag_bytes2 =  Blake2b(hash_key1 , message1, 64);
-
-	for(int i = 0; i < hash_tag_bytes2.size(); i++)
-	{
-		printf("\n hash_tag_bytes2[%d] : %x  ", i, hash_tag_bytes2[i]);
-	}
-
-/*
-	std::vector<uint8_t> hash_tag_bytes3 =  Blake2b({0x12, 0x34} , message1, 64);
-
-	for(int i = 0; i < hash_tag_bytes3.size(); i++)
-	{
-		printf("\n hash_tag_bytes3[%d] : %x  ", i, hash_tag_bytes3[i]);
-	}
-
-*/
-
-
-
-}
