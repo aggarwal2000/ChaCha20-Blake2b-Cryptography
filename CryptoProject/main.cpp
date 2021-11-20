@@ -12,7 +12,8 @@ int main(int argc, char *argv[])
 {	
 	if(argc != 3)
 	{	
-		printf("\n FORMAT:  executable [to_use_authentication?] [does_adversary_forge_the_msg?] \n");
+		DemonstrateHMAC();
+		printf("\n FORMAT for encryption (with or without authentication):  executable [to_use_authentication?] [does_adversary_forge_the_msg?] \n");
 		exit(1);
 	}
 	

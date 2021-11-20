@@ -108,3 +108,20 @@ void AuthenticatedEncryption(bool forged_by_adversary)
     }
 
 }
+
+void DemonstrateHMAC()
+{
+    DeleteFilesInDir("OutputFiles/");
+    std::cout << "\n Demonstrating HMAC:\n";
+
+    std::vector<uint8_t> text_message;
+    std::vector<uint8_t> blake_key;
+	size_t digest_num_bytes;
+
+    ReadInputFiles(text_message, blake_key, digest_num_bytes);
+
+    std::vector<uint8_t> hash_tag_bytes =  Blake2b(blake_key , text_message, digest_num_bytes);
+
+    write(hash_tag_bytes, false, "OutputFiles/hmac_demonstration.txt");
+    
+}

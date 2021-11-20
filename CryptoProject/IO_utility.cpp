@@ -402,6 +402,15 @@ uint32_t & chacha20_counter)
 
 
 
+void ReadInputFiles(std::vector<uint8_t>& text_message,std::vector<uint8_t>&  blake_key, size_t & digest_num_bytes)
+{   
+    static_assert(sizeof(char) == sizeof(uint8_t));
+    ReadPlainText(text_message);
+    ReadHmacKey(blake_key);
+    ReadHashNumBytes(digest_num_bytes);
+}
+
+
 
 void write(const std::vector<uint8_t>& bytes, const bool is_str, const std::string & fname)
 {
