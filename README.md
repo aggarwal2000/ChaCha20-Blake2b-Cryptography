@@ -93,7 +93,7 @@ npm start
 ```
 Once the server gets started head over to http://localhost:3000 the access the GUI
 
-![N|Solid](https://res.cloudinary.com/dez3yjolk/image/upload/v1639157072/samples/Screenshot_2021-12-10_at_10.53.36_PM_bs3oem.png)
+![N|Solid](https://res.cloudinary.com/dez3yjolk/image/upload/v1639227605/samples/Screenshot_2021-12-11_at_6.25.05_PM_ha22ob.png)
 
 For HMAC Demonstration head over to http://localhost:3000/hmac
 
