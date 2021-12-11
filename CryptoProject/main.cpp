@@ -12,7 +12,9 @@ int main(int argc, char *argv[])
 {	
 	if(argc != 3)
 	{	
+		printf("\n Inputs taken from Input directory!\n");
 		DemonstrateHMAC();
+		printf("\n Look at the output files directory!\n");
 		exit(0);
 	}
 	
@@ -29,13 +31,17 @@ int main(int argc, char *argv[])
 		does_adversary_forge = true;
 	}
 
+	printf("\n Inputs taken from Input directory!\n");
 	if(to_authenticate == true)
 	{
 		AuthenticatedEncryption(does_adversary_forge);
+	
 	}
 	else
 	{
 		SoleEncryption(does_adversary_forge);
+		
 	}
+	printf("\n Look at the output files directory!\n");
 
 }

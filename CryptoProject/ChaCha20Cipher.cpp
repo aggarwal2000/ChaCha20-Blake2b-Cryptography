@@ -41,7 +41,6 @@ void Pack4(const std::array< uint8_t, arr_size> & arr,  uint32_t & chacha20_stat
 
 	//printf("\n finally: %x", chacha20_state_element);
 
-	/* doubt: Is the shift circular?  */
 }
 
 
@@ -350,7 +349,7 @@ void Test()
 //       b = b ^ c;
 //       printf("\n b = %x ", b);
 
-//       CircularLeftShift(b,7);
+//       CircularLeftShift(b,7);https://github.com/aggarwal2000/ChaCha20-Blake2b-Cryptography.git
 //       //b = b << 7;
 //       printf("\n b = %x ", b);
 

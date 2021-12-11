@@ -68,8 +68,8 @@ void Compress( const std::array<uint64_t, 16> & input_data_block, const std::arr
 
 	for(int round = 0; round < 12; round++)
 	{	
-		printf("\n round: %d", round);
-		Print_array<16>(v);
+	//	printf("\n round: %d", round);
+	//	Print_array<16>(v);
 
 		Mix<0,4,8,12>(input_data_block[sigma[round % 10][0]], input_data_block[sigma[round % 10][1]], v);
 		Mix<1,5,9,13>(input_data_block[sigma[round % 10][2]], input_data_block[sigma[round % 10][3]], v);
@@ -82,8 +82,8 @@ void Compress( const std::array<uint64_t, 16> & input_data_block, const std::arr
 		Mix<3,4,9,14>(input_data_block[sigma[round % 10][14]], input_data_block[sigma[round % 10][15]], v);
 	}
 
-    printf("\n after all rounds");
-	Print_array<16>(v);
+   // printf("\n after all rounds");
+   //	Print_array<16>(v);
 
 
 	for(int i =0; i < 8; i++)
@@ -91,8 +91,8 @@ void Compress( const std::array<uint64_t, 16> & input_data_block, const std::arr
 		h[i] ^= (v[i] ^ v[i + 8]);
 	}
 
-	printf("\n Hash: \n");
-	Print_array<8>(h);
+	//printf("\n Hash: \n");
+	//Print_array<8>(h);
 
 	
 
@@ -139,9 +139,9 @@ void Pack8(const std::array< uint8_t, arr_size> & arr,  uint64_t & element)
 
 	element =  oc8 | oc7 | oc6 | oc5 | oc4 | oc3 | oc2 | oc1;
 
-	printf("\n\n\n octet1: %x , octet2: %x, octet3: %x , octet4: %x, octet5: %x, octet6: %x, octet7: %x , octet8: %x \n", octet1, octet2, octet3, octet4, octet5, octet6, octet7, octet8);
-	printf("oc1: %lx , oc2: %lx, oc3: %lx , oc4: %lx, oc5: %lx, oc6: %lx, oc7: %lx , oc8: %lx \n", oc1, oc2, oc3, oc4, oc5, oc6, oc7, oc8);
-	printf(" ele: %lx ", element);
+	//printf("\n\n\n octet1: %x , octet2: %x, octet3: %x , octet4: %x, octet5: %x, octet6: %x, octet7: %x , octet8: %x \n", octet1, octet2, octet3, octet4, octet5, octet6, octet7, octet8);
+	//printf("oc1: %lx , oc2: %lx, oc3: %lx , oc4: %lx, oc5: %lx, oc6: %lx, oc7: %lx , oc8: %lx \n", oc1, oc2, oc3, oc4, oc5, oc6, oc7, oc8);
+	//printf(" ele: %lx ", element);
 
 	/* doubt: Is the shift circular?  */
 }
@@ -153,52 +153,52 @@ void Unpack_to_8(const uint64_t element, std::array<uint8_t, arr_size> & arr)
 	static_assert(start_idx >= 0);
 	static_assert(start_idx + 7 <= arr_size - 1);
 
-	printf("\n element to be unpacked to 8: %lx ", element);
+	//printf("\n element to be unpacked to 8: %lx ", element);
 
 	//Look at :  element =  octet8 CONCAT octet7 CONCAT octet6 CONCAT octet5 CONCAT octet4 CONCAT octet3 CONCAT octet2 CONCAT octet1
 	uint64_t oc1 = element;
 	oc1 = oc1 & 0xff;
-	 printf("\n oc1: %lx", oc1);
+	// printf("\n oc1: %lx", oc1);
 
 	uint64_t oc2 = element;
 	oc2 = oc2 & 0xff00;
 	// printf("\n oc2: %x ", oc2);
 	oc2 = oc2 >> 8;
-	 printf("\n oc2: %lx ", oc2);
+	// printf("\n oc2: %lx ", oc2);
 
 	uint64_t oc3 = element;
 	oc3 = oc3 & 0xff0000;
 	// printf("\n oc3: %x", oc3);
 	oc3 = oc3 >> 16;
-	 printf("\n oc3: %lx", oc3);
+	// printf("\n oc3: %lx", oc3);
 
 	uint64_t oc4 = element;
 	oc4 = oc4 & 0xff000000;
 	// printf("\n oc4: %x",oc4);
 	oc4 = oc4 >> 24;
-	 printf("\n oc4: %lx",oc4);
+	// printf("\n oc4: %lx",oc4);
 
 
 	uint64_t oc5 = element;
 	oc5 = oc5 & 0xff00000000;
 	oc5 = oc5 >> 32;
-	 printf("\n oc5: %lx",oc5);
+	// printf("\n oc5: %lx",oc5);
 
 	uint64_t oc6 = element;
 	oc6 = oc6 & 0xff0000000000;
 	oc6 = oc6 >> 40;
-	 printf("\n oc6: %lx",oc6);
+	// printf("\n oc6: %lx",oc6);
 
 
 	uint64_t oc7 = element;
 	oc7 = oc7 & 0xff000000000000;
 	oc7 = oc7 >> 48;
-	 printf("\n oc7: %lx",oc7);
+	// printf("\n oc7: %lx",oc7);
 
 	uint64_t oc8 = element;
 	oc8 = oc8 & 0xff00000000000000;
 	oc8 = oc8 >> 56;
-	 printf("\n oc8: %lx",oc8);
+	// printf("\n oc8: %lx",oc8);
 
 	uint8_t octet1 = static_cast<uint8_t>(oc1);
 	uint8_t octet2 = static_cast<uint8_t>(oc2);
@@ -299,7 +299,7 @@ void CreateDataBlock(const std::vector<uint8_t> & hash_key , const std::vector<u
 	}
 	else if(iter == 0 && hash_key.size() > 0 )
 	{	
-		printf("\n Creating data bloack from key\n");
+		//printf("\n Creating data bloack from key\n");
 		size_t i = 0;
 		for(; i < hash_key.size(); i++)
 		{
@@ -368,7 +368,7 @@ std::vector<uint8_t> Blake2b(const std::vector<uint8_t> & hash_key , const std::
 {	
 	const size_t keylen = hash_key.size();
 
-	printf("\n keylen: %d ", keylen);
+	//printf("\n keylen: %d ", keylen);
 
 	assert(keylen >= 0 &&  keylen <= 64);
 	//assert(msglen >= 0 && msglen <= 2**128 -> v.big, exceeds max vector (of chars) size for this system)	
@@ -427,14 +427,14 @@ std::vector<uint8_t> Blake2b(const std::vector<uint8_t> & hash_key , const std::
 
 		CreateDataBlock(hash_key,message, increment_for_t, is_last_block, input_data_block);
 		
-		printf("\n Is last block: %d ", is_last_block);
+		//printf("\n Is last block: %d ", is_last_block);
 
-		for(int i = 0; i < 16; i++)
-		{
-			printf("\n input_data_block[%d]: %lx ", i, input_data_block[i]);
-		}
+		// for(int i = 0; i < 16; i++)
+		// {
+		// 	printf("\n input_data_block[%d]: %lx ", i, input_data_block[i]);
+		// }
 
-		printf("\n increment_for_t: %d ", increment_for_t);
+		// printf("\n increment_for_t: %d ", increment_for_t);
 		
 		t[0] += increment_for_t;
 		if( t[0] < increment_for_t)  //carry overflow?
